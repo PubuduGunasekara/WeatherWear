@@ -33,7 +33,7 @@ public class WeatherFragment extends Fragment {
 
         // Replace "YOUR_API_KEY" with your actual API key
         String apiKey = "fada726ea4784bcab44232343230912";
-        String cityName = "Kitchener";
+        String cityName = "Kitchner";
         String includeAqi = "no";
 
         Call<WeatherResponse> call = weatherService.getCurrentWeather(apiKey, cityName, includeAqi);
@@ -70,7 +70,11 @@ public class WeatherFragment extends Fragment {
         binding.tvHumidity.setText("Humidity: " + weatherResponse.getCurrentWeather().getHumidity() + "%");
         binding.tvWindSpeed.setText("Wind Speed: " + weatherResponse.getCurrentWeather().getWindKph() + " kph");
 
-        String iconUrl = "http:" + weatherResponse.getCurrentWeather().getCondition().getIcon();
+        Log.d("myTag", weatherResponse.getCurrentWeather().getCondition().getIcon().toString());
+
+        String urlFromWeatherResponse = weatherResponse.getCurrentWeather().getCondition().getIcon().toString();
+
+        String iconUrl = "https:" + urlFromWeatherResponse;
         Log.d("Icon URL", iconUrl);
         Picasso.get().load(iconUrl).into(binding.imgWeatherIcon);
 

@@ -8,7 +8,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
 
 import com.example.weatherwear.databinding.ActivityMainBinding;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
