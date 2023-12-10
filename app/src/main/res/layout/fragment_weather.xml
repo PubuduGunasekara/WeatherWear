@@ -51,8 +51,7 @@
                 <ImageView
                     android:id="@+id/imgWeatherIcon"
                     android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/sun"/>
+                    android:layout_height="64dp" />
 
                 <!-- Condition -->
                 <TextView
