@@ -34,7 +34,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment createFragment(int position) {
-            return new WeatherFragment();
+            switch (position){
+                case 0:
+                    return new WeatherFragment();
+                case 1:
+                    return new HourlyForecastFragment();
+                case 2:
+                    return new OneDayForecastFragment();
+                default:
+                    return new WeatherFragment();
+            }
         }
     }
 }

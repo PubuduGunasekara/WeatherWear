@@ -18,7 +18,7 @@
                 android:id="@+id/tvDay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Day Information"
+                android:text="Current "
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:gravity="center"
