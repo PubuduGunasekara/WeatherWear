@@ -1,8 +1,14 @@
 package com.example.weatherwear;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -30,10 +36,10 @@ public class OneDayForecastFragment extends Fragment {
     private TextView conditionTextView;
 
     private ImageView imageView;
+
     public OneDayForecastFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -58,7 +64,7 @@ public class OneDayForecastFragment extends Fragment {
 
     private void getWeatherData() {
         // Replace "YOUR_API_KEY" with your actual API key
-        Call<Weather> call = weatherApiService.getWeatherForecast("fada726ea4784bcab44232343230912", "Kitchener", 1, "no", "no");
+        Call<Weather> call = weatherApiService.getWeatherForecast("fada726ea4784bcab44232343230912", "Kitchener", 2, "no", "no");
 
         call.enqueue(new Callback<Weather>() {
             @Override
@@ -80,7 +86,7 @@ public class OneDayForecastFragment extends Fragment {
     }
 
     private void displayWeatherData(Weather weather) {
-        Forecastday forecastday = weather.getForecast().getForecastday()[0];
+        Forecastday forecastday = weather.getForecast().getForecastday()[1];
         Day day = forecastday.getDay();
         Condition condition = day.getCondition();
 
@@ -90,6 +96,44 @@ public class OneDayForecastFragment extends Fragment {
         humidityTextView.setText(String.format("Humidity: %.2f%%", day.getAvgHumidity()));
         conditionTextView.setText("Condition: " + day.getCondition().getText());
         Picasso.get().load("https:" + condition.getIcon()).into(imageView);
+        if (day.getDaily_will_it_rain() == 1) {
+           showWeatherNotification("Tomorrow it will rain with min temp. of "+ day.getMinTemp());
+        } else {
+            showWeatherNotification("Tomorrow it will not rain with min temp. of "+ day.getMinTemp());
+        }
+        if (day.getDaily_will_it_snow() == 1) {
+            showWeatherNotification("Tomorrow it will snow with min temp. of "+ day.getMinTemp());
+        } else {
+            showWeatherNotification("Tomorrow it will not snow with min temp. of "+ day.getMinTemp());
+        }
+    }
 
+    private void showWeatherNotification(String weatherCondition) {
+        // Create an intent for the notification
+        Intent intent = new Intent(requireContext(), MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(requireContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), "weather_channel")
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("Weather Alert")
+                .setContentText("Expect " + weatherCondition)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        // Show the notification
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
+        if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify(1, builder.build());
     }
 }

@@ -7,6 +7,9 @@ public class Day {
     private double maxwind_kph;
     private Condition condition;
 
+    private int daily_will_it_rain;
+    private int daily_will_it_snow;
+
     public double getMinTemp() {
         return mintemp_c;
     }
@@ -25,5 +28,18 @@ public class Day {
 
     public Condition getCondition() {
         return condition;
+    }
+
+
+    public double getMaxwind_kph() {
+        return maxwind_kph;
+    }
+
+    public int getDaily_will_it_rain() {
+        return daily_will_it_rain;
+    }
+
+    public int getDaily_will_it_snow() {
+        return daily_will_it_snow;
     }
 }
