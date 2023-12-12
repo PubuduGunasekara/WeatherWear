@@ -2,4 +2,18 @@
     <string name="app_name">WeatherWear</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hourly_txt">Hourly</string>
+    <string name="tomorrow_txt">Tomorrow</string>
+    <string name="condition_txt">Condition:</string>
+    <string name="temperature_txt">Temperature:</string>
+    <string name="wind_speed_txt">Wind Speed:</string>
+    <string name="humidity_txt">Humidity:</string>
+    <string name="current_txt">Current</string>
+    <string name="location_information_txt">Location Information</string>
+    <string name="weather_condition_txt">Condition</string>
+    <string name="weather_humidity_txt">Humidity</string>
+    <string name="weather_wind_speed_txt">Wind Speed</string>
+    <string name="weather_temperature_txt">Temperature</string>
+    <string name="hourly_12_pm">12 PM</string>
+    <string name="hourly_25_c">25°C</string>
 </resources>
