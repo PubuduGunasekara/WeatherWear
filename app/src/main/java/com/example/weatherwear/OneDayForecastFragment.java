@@ -1,7 +1,9 @@
 package com.example.weatherwear;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +38,12 @@ public class OneDayForecastFragment extends Fragment {
     private TextView humidityTextView;
     private TextView conditionTextView;
 
+    private SharedPreferences sharedPreferences;
+
     private ImageView imageView;
+    private SharedViewModel sharedViewModel;
+    private String cityNameUI = "Kitchener";
+
 
     public OneDayForecastFragment() {
         // Required empty public constructor
@@ -50,6 +58,15 @@ public class OneDayForecastFragment extends Fragment {
         Retrofit retrofit = RetrofitClient.getClient();
         weatherApiService = retrofit.create(WeatherService.class);
 
+        // Obtain the ViewModel
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+
+        // Obtain the Context from the hosting Activity
+        Context context = requireActivity();
+        // Initialize SharedPreferences
+        sharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+
         // Initialize TextViews
         minMaxTemperatureTextView = view.findViewById(R.id.minMaxTemperature);
         windSpeedTextView = view.findViewById(R.id.windSpeed);
@@ -62,9 +79,19 @@ public class OneDayForecastFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        cityNameUI = sharedPreferences.getString("cityName", "");
+    }
+
     private void getWeatherData() {
+        // Access the global variable
+        //String cityName = sharedViewModel.getGlobalVariable();
+
+        cityNameUI = sharedPreferences.getString("cityName", "");
         // Replace "YOUR_API_KEY" with your actual API key
-        Call<Weather> call = weatherApiService.getWeatherForecast("fada726ea4784bcab44232343230912", "Kitchener", 2, "no", "no");
+        Call<Weather> call = weatherApiService.getWeatherForecast("fada726ea4784bcab44232343230912", cityNameUI, 2, "no", "no");
 
         call.enqueue(new Callback<Weather>() {
             @Override
@@ -97,14 +124,14 @@ public class OneDayForecastFragment extends Fragment {
         conditionTextView.setText("Condition: " + day.getCondition().getText());
         Picasso.get().load("https:" + condition.getIcon()).into(imageView);
         if (day.getDaily_will_it_rain() == 1) {
-           showWeatherNotification("Tomorrow it will rain with min temp. of "+ day.getMinTemp());
+            showWeatherNotification("Tomorrow it will rain with min temp. of " + day.getMinTemp());
         } else {
-            showWeatherNotification("Tomorrow it will not rain with min temp. of "+ day.getMinTemp());
+            showWeatherNotification("Tomorrow it will not rain with min temp. of " + day.getMinTemp());
         }
         if (day.getDaily_will_it_snow() == 1) {
-            showWeatherNotification("Tomorrow it will snow with min temp. of "+ day.getMinTemp());
+            showWeatherNotification("Tomorrow it will snow with min temp. of " + day.getMinTemp());
         } else {
-            showWeatherNotification("Tomorrow it will not snow with min temp. of "+ day.getMinTemp());
+            showWeatherNotification("Tomorrow it will not snow with min temp. of " + day.getMinTemp());
         }
     }
 

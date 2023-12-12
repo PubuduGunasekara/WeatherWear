@@ -1,8 +1,13 @@
 package com.example.weatherwear;
 
+import androidx.lifecycle.ViewModel;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,8 +25,11 @@ public class HourlyForecastFragment extends Fragment {
 
     private WeatherService weatherApiService;
     private RecyclerView recyclerView;
-
+    private SharedPreferences sharedPreferences;
     private HourAdapter adapter;
+
+    private SharedViewModel sharedViewModel;
+    private String cityNameUI = "Kitchener";
 
     public HourlyForecastFragment() {
         // Required empty public constructor
@@ -31,7 +39,19 @@ public class HourlyForecastFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Obtain the ViewModel
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        // Obtain the Context from the hosting Activity
+        Context context = requireActivity();
+        // Initialize SharedPreferences
+        sharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        cityNameUI = sharedPreferences.getString("cityName", "");
     }
 
     @Override
@@ -44,7 +64,10 @@ public class HourlyForecastFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new HourAdapter();
         recyclerView.setAdapter(adapter);
-        Call<Weather> call = weatherApiService.getHourlyForecast("fada726ea4784bcab44232343230912", "Kitchener", 1);
+        // Access the global variable
+        //String cityName = sharedViewModel.getGlobalVariable();
+        cityNameUI = sharedPreferences.getString("cityName", "");
+        Call<Weather> call = weatherApiService.getHourlyForecast("fada726ea4784bcab44232343230912", cityNameUI, 1);
         call.enqueue(new Callback<Weather>() {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {

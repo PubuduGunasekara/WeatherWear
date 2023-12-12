@@ -16,4 +16,6 @@
     <string name="weather_temperature_txt">Temperature</string>
     <string name="hourly_12_pm">12 PM</string>
     <string name="hourly_25_c">25°C</string>
+    <string name="type_city">Type City</string>
+    <string name="submit">Submit</string>
 </resources>

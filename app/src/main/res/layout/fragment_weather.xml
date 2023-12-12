@@ -10,16 +10,54 @@
         android:layout_height="match_parent"
         android:fadeScrollbars="false">
 
+
+        <!--      <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+                  <EditText
+                      android:id="@+id/locationUserInput"
+                      android:layout_width="match_parent"
+                      android:layout_height="50dp"
+                      android:layout_gravity="center"
+                      android:gravity="center"
+                      android:hint="@string/type_city"
+                      android:imeOptions="actionDone"
+                      android:inputType="textCapSentences|textAutoCorrect"
+                      android:textColorHint="@color/white" />
+
+                  <Button
+                      android:id="@+id/submitUserInput"
+                      android:layout_width="match_parent"
+                      android:layout_height="50dp"
+                      android:layout_gravity="center"
+                      android:gravity="center"
+                      android:hint="@string/submit"
+                      android:inputType="textCapSentences|textAutoCorrect" />
+              </LinearLayout>
+  -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/locationUserInput"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:hint="@string/type_city"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:textColorHint="@color/white" />
 
             <!-- Day Information -->
             <TextView
                 android:id="@+id/tvDay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="66dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="@string/current_txt"

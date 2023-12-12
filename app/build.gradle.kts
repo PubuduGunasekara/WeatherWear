@@ -46,6 +46,8 @@ dependencies {
     implementation("androidx.wear:wear:1.3.0")
 
     implementation ("com.google.android.gms:play-services-location:19.0.1")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.4.1")
+    implementation ("androidx.lifecycle:lifecycle-livedata:2.4.1")
 
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
